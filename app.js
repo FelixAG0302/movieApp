@@ -15,9 +15,12 @@ let movies = []
 const btnBack = document.querySelector(".page__back")
 const PageCounter = document.querySelector(".page__counter")
 PageCounter.innerHTML = UpdateCounter(operation.none)
-const btnFoward = document.querySelector(".page__foward")
+const form = document.querySelector("#form")
 
-let apiKey = 'Your api key here'
+
+const buttomSearch = document.querySelector(".body__button")
+
+let apiKey = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNTNmMWQ5YjYxNTgxODhiMzZkN2ZlODA0YzRjNjAyZCIsIm5iZiI6MTcyNTI4Nzc5MC4yNjcxOTMsInN1YiI6IjY2ZDVjYjczYzhhNmQwMGM4ZjI3NWU5ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kmNJAcZ-nVtiJLHkXuy59Ssghdy3te2hArOo81ir2uI'
 
 const mainDiv = document.querySelector(".body__movieCards")
 const options = {
@@ -29,7 +32,7 @@ const options = {
   };
 
 async function fetchData(counter) {
-const responde = await fetch (url + counter, options)
+const responde = await fetch (url + counter , options)
 if (!responde.ok) {
     const errorMessage = "Error fecthing data form the api"
     throw Error(errorMessage)
@@ -101,6 +104,28 @@ function makeMovieCards(data) {
         
    }
 }
+
+
+
+form.
+addEventListener("submit", function(e) {
+    e.preventDefault()
+ 
+      console.log(form[0].value);
+    if(form[0].value === "" || form[0].value === undefined) return 
+
+    fetch(`https://api.themoviedb.org/3/search/movie?query=${form[0].value}&include_adult=false&language=en-US&page=1`, options)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.results);
+        //changePage(data.results[0])
+    } )
+    .catch(err => console.error(err));
+    
+     
+
+})
+
 
 btnBack.addEventListener("click", () => {
     let counter = UpdateCounter(operation.sustract);
